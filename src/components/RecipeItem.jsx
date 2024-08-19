@@ -8,6 +8,17 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 
+// Helper function to render labels
+const renderLabels = (labels, colorScheme) => (
+  <Wrap spacing={2} justify="center">
+    {labels.map((label, index) => (
+      <WrapItem key={index}>
+        <Badge colorScheme={colorScheme}>{label}</Badge>
+      </WrapItem>
+    ))}
+  </Wrap>
+);
+
 // RecipeItem component to display individual recipe details
 export const RecipeItem = ({ recipe, onClick }) => {
   // Filter to only show Vegan and Vegetarian labels
@@ -29,7 +40,7 @@ export const RecipeItem = ({ recipe, onClick }) => {
       maxW="sm"
       w="full"
     >
-      {/* Vertical stack to align and space items verically */}
+      {/* Vertical stack to align and space items vertically */}
       <VStack align="center" spacing={4}>
         {/* Image component displaying the recipe image with specific styles*/}
         <Image
@@ -41,7 +52,7 @@ export const RecipeItem = ({ recipe, onClick }) => {
           borderRadius="full"
         />
 
-        {/* Text component displaying the recipe label in bold and cetered*/}
+        {/* Text component displaying the recipe label in bold and centered*/}
         {recipe.mealType.length > 0 && (
           <Text as="samp" textAlign="center" fontSize="sm">
             {recipe.mealType.join(", ")}
@@ -51,25 +62,10 @@ export const RecipeItem = ({ recipe, onClick }) => {
           {recipe.label}
         </Text>
 
-        {/* Conditional rendering for health labels if they exist */}
-        {healthLabels.length > 0 && (
-          <Wrap spacing={2} justify="center">
-            {healthLabels.map((label, index) => (
-              <WrapItem key={index}>
-                <Badge colorScheme="purple">{label}</Badge>
-              </WrapItem>
-            ))}
-          </Wrap>
-        )}
-        {recipe.dietLabels.length > 0 && (
-          <Wrap spacing={2} justify="center">
-            {recipe.dietLabels.map((label, index) => (
-              <WrapItem key={index}>
-                <Badge colorScheme="green">{label}</Badge>
-              </WrapItem>
-            ))}
-          </Wrap>
-        )}
+        {/* Render health labels, diet labels, and cautions using the renderLabels function */}
+        {healthLabels.length > 0 && renderLabels(healthLabels, "purple")}
+        {recipe.dietLabels.length > 0 &&
+          renderLabels(recipe.dietLabels, "green")}
         {recipe.dishType.length > 0 && (
           <Text as="samp" textAlign="center" fontSize="sm">
             Dish Type: {recipe.dishType.join(", ")}
@@ -80,13 +76,7 @@ export const RecipeItem = ({ recipe, onClick }) => {
             <Text textAlign="center" fontSize="sm">
               <strong>Cautions:</strong>
             </Text>
-            <Wrap spacing={2} justify="center">
-              {recipe.cautions.map((caution, index) => (
-                <WrapItem key={index}>
-                  <Badge colorScheme="red">{caution}</Badge>
-                </WrapItem>
-              ))}
-            </Wrap>
+            {renderLabels(recipe.cautions, "red")}
           </>
         )}
       </VStack>
