@@ -8,11 +8,11 @@ This is a React application designed to display and manage a list of recipes. Th
 ```
  Install the dependencies:
  ```bash
-    npm install
+   npm install
 ```
  Run the development server
  ```bash
-    npm run dev
+   npm run dev
 ```
 
 ## Features ✨
